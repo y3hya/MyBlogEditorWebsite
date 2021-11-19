@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Website</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="website.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img
+            src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg"
+            alt=""
+            width="30"
+            height="24"
+          />
+        </a>
+      </div>
+    </nav>
+
+    <div class="bodyInnerDiv">
+      <div id="MyArticle"></div>  <!-- This div gets populated through js -->
+
+      <div id="MyForm" class="shadow-lg p-3 mt-5 mb-5 rounded">
+        <p class="textLabel">Please enter your content here:</p>
+        <textarea class="boxes" id="textArea"></textarea>
+
+        <p class="textLabel" for="optionSelect">Options:</p>
+
+        <select name="pets" id="optionSelect">
+          <option value="">--Please choose an option--</option>
+          <option value="title-heading">Title Heading</option>
+          <option value="secondary-heading">Secondary Heading</option>
+          <option value="normal-text">Normal Text</option>
+          <option value="attach-an-image">Attach an image</option>
+          <option value="attach-a-video">Attach a video</option>
+        </select>
+        <div class="pt-3">
+          <button
+            type="button"
+            id="insertButton"
+            class="btn btn-primary btn-md"
+          >
+            Insert
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="MyWebsite.js"></script>
+  </body>
+</html>

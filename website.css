@@ -1,0 +1,48 @@
+body {
+  background-color: lightblue;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  margin: 5px;
+}
+
+input {
+  width: 100%;
+}
+
+.boxes {
+  width: 100%;
+}
+
+#textArea {
+  height: 10rem;
+}
+
+.textLabel {
+  margin-top: 1rem;
+}
+
+.bodyInnerDiv {
+  width: 80%;
+  margin: 0 auto;
+}
+
+#MyArticle {
+  width: 100%;
+}
+
+#MyArticle img {
+  /* set images to center align */
+}
+
+#MyForm {
+}
+
+.videoAttach {
+  width: 80%;
+  height: 444px;
+  margin: 0 auto;
+  padding: 20px;
+}
