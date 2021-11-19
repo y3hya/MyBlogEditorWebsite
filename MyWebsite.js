@@ -1,9 +1,9 @@
 document.getElementById("insertButton").onclick = OnInsertClick;
 var pickedID = null;
 
-function rndId() {
+function rndId(elementName) {
   var i = Math.random().toString(16).slice(2);
-  return i;
+  return elementName + i;
 }
 
 function addHeading(myText) {
@@ -32,19 +32,19 @@ function addSecondaryHeading(myText) {
 function addParagraph(myText) {
   console.log(pickedID);
   if (pickedID == null) {
-    var pElement = document.createElement("p"); // Create the h2 element
+    var elementName = "p";
+
+    var pElement = document.createElement(elementName); // Create the h2 element
     pElement.textContent = myText;
 
     MyArticle.appendChild(pElement); // Append the H1 element to text-Area
 
-    var paraID = "P-" + rndId();
+    var uniqueID = rndId(elementName);
+    pElement.setAttribute("id", uniqueID);
 
-    pElement.setAttribute("id", paraID);
-    // pElement.setAttribute("onClick", "reply_click(this.id)");
-
-    document.getElementById(paraID).onclick = () => {
-      rememberMyName(paraID);
-      textArea.value = document.getElementById(paraID).innerHTML;
+    document.getElementById(uniqueID).onclick = () => {
+      rememberMyName(uniqueID);
+      textArea.value = document.getElementById(uniqueID).innerHTML;
     };
   } else {
     document.getElementById(pickedID).innerHTML = textArea.value;
@@ -124,6 +124,7 @@ function OnInsertClick() {
 
   // after complete process clear text area
   document.getElementById("textArea").value = "";
+  pickedID = null;
 }
 
 function rememberMyName(clicked_id) {
