@@ -28,29 +28,36 @@
     </nav>
 
     <div class="bodyInnerDiv">
-      <div id="MyArticle"></div>  <!-- This div gets populated through js -->
+      <div id="MyArticle"></div>
+      <!-- This div gets populated through js -->
 
       <div id="MyForm" class="shadow-lg p-3 mt-5 mb-5 rounded">
         <p class="textLabel">Please enter your content here:</p>
         <textarea class="boxes" id="textArea"></textarea>
 
-        <p class="textLabel" for="optionSelect">Options:</p>
+        <div id="optionSelectContainer">
+          <p class="textLabel" for="optionSelect">Options:</p>
 
-        <select name="pets" id="optionSelect">
-          <option value="">--Please choose an option--</option>
-          <option value="title-heading">Title Heading</option>
-          <option value="secondary-heading">Secondary Heading</option>
-          <option value="normal-text">Normal Text</option>
-          <option value="attach-an-image">Attach an image</option>
-          <option value="attach-a-video">Attach a video</option>
-        </select>
-        <div class="pt-3">
+          <select name="pets" id="optionSelect">
+            <option value="">--Please choose an option--</option>
+            <option value="title-heading">Title Heading</option>
+            <option value="secondary-heading">Secondary Heading</option>
+            <option value="normal-text">Normal Text</option>
+            <option value="attach-an-image">Attach an image</option>
+            <option value="attach-a-video">Attach a video</option>
+          </select>
+        </div>
+        <div class="pt-3" id="actionButtons">
           <button
             type="button"
             id="insertButton"
             class="btn btn-primary btn-md"
           >
             Insert
+          </button>
+        
+          <button type="button" id="deleteButton" style="display:none" class="btn btn-outline-danger btn-md">
+            Delete
           </button>
         </div>
       </div>

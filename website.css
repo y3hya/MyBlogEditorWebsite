@@ -46,3 +46,8 @@ input {
   margin: 0 auto;
   padding: 20px;
 }
+
+#actionButtons {
+  display: flex;
+  justify-content: space-between;
+}

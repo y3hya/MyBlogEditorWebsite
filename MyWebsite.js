@@ -1,4 +1,5 @@
 document.getElementById("insertButton").onclick = OnInsertClick;
+document.getElementById("deleteButton").onclick = deleteElement;
 var pickedID = null;
 
 function rndId(elementName) {
@@ -20,17 +21,29 @@ function addHeading(myText) {
 function updateHeading(myText) {
   document.querySelector("#MyArticle h1").textContent = myText;
 }
-
+// ------------------------HEADING----------------------- //
 function addSecondaryHeading(myText) {
-  var h2element = document.createElement("h2"); // Create the h2 element
-  h2element.textContent = myText;
+  if (pickedID == null) {
+    var elementName = "h2";
 
-  MyArticle.appendChild(h2element); // Append the H1 element to text-Area
+    var h2element = document.createElement(elementName); // Create the h2 element
+    h2element.textContent = myText;
+
+    MyArticle.appendChild(h2element); // Append the H1 element to text-Area
+    var uniqueID = rndId(elementName);
+    h2element.setAttribute("id", uniqueID);
+
+    document.getElementById(uniqueID).onclick = () => {
+      rememberMyName(uniqueID);
+      textArea.value = document.getElementById(uniqueID).innerHTML;
+    };
+  } else {
+    document.getElementById(pickedID).innerHTML = textArea.value;
+  }
 }
 
 // ------------------------PARAGRAPH----------------------- //
 function addParagraph(myText) {
-  console.log(pickedID);
   if (pickedID == null) {
     var elementName = "p";
 
@@ -50,7 +63,6 @@ function addParagraph(myText) {
     document.getElementById(pickedID).innerHTML = textArea.value;
   }
 }
-// ------------------------PARAGRAPH-END------------------- //
 
 function addImage(myText) {
   var divElement = document.createElement("div");
@@ -67,7 +79,7 @@ function addVideo(myText) {
   if (!myText.includes("/watch?v=")) {
     return alert("Bad youtube url");
   }
-  console.log(myText);
+
   var divElement = document.createElement("div");
   divElement.setAttribute("class", "flex-center");
 
@@ -123,11 +135,33 @@ function OnInsertClick() {
   }
 
   // after complete process clear text area
-  document.getElementById("textArea").value = "";
-  pickedID = null;
+  
+  convertToInsertMode();
 }
 
 function rememberMyName(clicked_id) {
   // alert(clicked_id);
   pickedID = clicked_id;
+  convertToEditMode();
+}
+
+function convertToEditMode() {
+  document.getElementById("optionSelectContainer").style.display = "none";
+  document.getElementById("deleteButton").style.display = null;
+  document.getElementById("insertButton").innerHTML = "Update";
+}
+function convertToInsertMode() {
+  pickedID = null;
+  document.getElementById("textArea").value = "";
+  document.getElementById("optionSelectContainer").style.display = null;
+  document.getElementById("insertButton").innerHTML = "Insert";
+  document.getElementById("deleteButton").style.display = "none";
+}
+function deleteElement() {
+  if (pickedID != null) {
+    var elementToDelete = document.getElementById(pickedID);
+    elementToDelete.parentElement.removeChild(elementToDelete);
+
+    convertToInsertMode();
+  }
 }
