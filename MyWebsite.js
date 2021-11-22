@@ -25,44 +25,28 @@ function updateHeading(myText) {
 function addSecondaryHeading(myText) {
   if (pickedID == null) {
     var elementName = "h2";
-
-    var h2element = document.createElement(elementName); // Create the h2 element
-    h2element.textContent = myText;
-
-    MyArticle.appendChild(h2element); // Append the H1 element to text-Area
-    var uniqueID = rndId(elementName);
-    h2element.setAttribute("id", uniqueID);
-
-    document.getElementById(uniqueID).onclick = () => {
-      rememberMyName(uniqueID);
-      textArea.value = document.getElementById(uniqueID).innerHTML;
-    };
+    var elementAttribute = "innerHTML";
+    makePickableElement(elementName, myText, elementAttribute);
+    // textArea.value = document.getElementById(uniqueID).innerHTML;
   } else {
     document.getElementById(pickedID).innerHTML = textArea.value;
   }
 }
+
+
 
 // ------------------------PARAGRAPH----------------------- //
 function addParagraph(myText) {
   if (pickedID == null) {
     var elementName = "p";
-
-    var pElement = document.createElement(elementName); // Create the h2 element
-    pElement.textContent = myText;
-
-    MyArticle.appendChild(pElement); // Append the H1 element to text-Area
-
-    var uniqueID = rndId(elementName);
-    pElement.setAttribute("id", uniqueID);
-
-    document.getElementById(uniqueID).onclick = () => {
-      rememberMyName(uniqueID);
-      textArea.value = document.getElementById(uniqueID).innerHTML;
-    };
+    var elementAttribute = "innerHTML";
+    makePickableElement(elementName, myText, elementAttribute);
+    // textArea.value = document.getElementById(uniqueID).innerHTML;
   } else {
     document.getElementById(pickedID).innerHTML = textArea.value;
   }
 }
+
 
 function addImage(myText) {
   var divElement = document.createElement("div");
@@ -135,13 +119,28 @@ function OnInsertClick() {
   }
 
   // after complete process clear text area
-  
+
   convertToInsertMode();
 }
 
-function rememberMyName(clicked_id) {
+function makePickableElement(elementName, myText, elementAttribute) {
+  var newElement = document.createElement(elementName); // Create the h2 element
+  newElement[elementAttribute] = myText;
+
+  var uniqueID = rndId(elementName);
+  newElement.setAttribute("id", uniqueID);
+
+  newElement.onclick = () => {
+    rememberMyName(uniqueID, elementAttribute);
+  };
+
+  MyArticle.appendChild(newElement); // Append the H1 element to text-Area
+}
+
+function rememberMyName(pickedID, elementAttribute) {
   // alert(clicked_id);
-  pickedID = clicked_id;
+  window.pickedID = pickedID;
+  textArea.value = document.getElementById(pickedID)[elementAttribute];
   convertToEditMode();
 }
 
