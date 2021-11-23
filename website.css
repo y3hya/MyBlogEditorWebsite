@@ -6,6 +6,7 @@ body {
   display: flex;
   justify-content: center;
   margin: 5px;
+
 }
 
 input {
@@ -35,6 +36,7 @@ input {
 
 #MyArticle img {
   /* set images to center align */
+  max-width: 100%;
 }
 
 #MyForm {

@@ -2,89 +2,6 @@ document.getElementById("insertButton").onclick = OnInsertClick;
 document.getElementById("deleteButton").onclick = deleteElement;
 var pickedID = null;
 
-function rndId(elementName) {
-  var i = Math.random().toString(16).slice(2);
-  return elementName + i;
-}
-
-function addHeading(myText) {
-  var h1element = document.createElement("h1"); // Create the H1 element
-  // METHOD 1
-  //   var textnode = document.createTextNode(text); // Create a text element
-  //   h1element.appendChild(textnode); // Append the text node to the H1 element
-
-  // METHOD 2
-  h1element.textContent = myText;
-  MyArticle.prepend(h1element);
-}
-
-function updateHeading(myText) {
-  document.querySelector("#MyArticle h1").textContent = myText;
-}
-// ------------------------HEADING----------------------- //
-function addSecondaryHeading(myText) {
-  if (pickedID == null) {
-    var elementName = "h2";
-    var elementAttribute = "innerHTML";
-    makePickableElement(elementName, myText, elementAttribute);
-    // textArea.value = document.getElementById(uniqueID).innerHTML;
-  } else {
-    document.getElementById(pickedID).innerHTML = textArea.value;
-  }
-}
-
-
-
-// ------------------------PARAGRAPH----------------------- //
-function addParagraph(myText) {
-  if (pickedID == null) {
-    var elementName = "p";
-    var elementAttribute = "innerHTML";
-    makePickableElement(elementName, myText, elementAttribute);
-    // textArea.value = document.getElementById(uniqueID).innerHTML;
-  } else {
-    document.getElementById(pickedID).innerHTML = textArea.value;
-  }
-}
-
-
-function addImage(myText) {
-  var divElement = document.createElement("div");
-  divElement.setAttribute("class", "flex-center");
-
-  var imgElement = document.createElement("img"); // Create the image element
-  imgElement.src = myText;
-
-  divElement.appendChild(imgElement);
-  MyArticle.appendChild(divElement);
-}
-
-function addVideo(myText) {
-  if (!myText.includes("/watch?v=")) {
-    return alert("Bad youtube url");
-  }
-
-  var divElement = document.createElement("div");
-  divElement.setAttribute("class", "flex-center");
-
-  var vidElement = document.createElement("iframe"); // Create the image element
-  vidElement.src = myText.replace("/watch?v=", "/embed/");
-  vidElement.setAttribute("frameborder", "0");
-  vidElement.setAttribute("class", "videoAttach");
-
-  divElement.appendChild(vidElement);
-  MyArticle.appendChild(divElement); // Append the H1 element to text-Area
-}
-
-/* <iframe
-  width="790"
-  height="444"
-  src="https://www.youtube.com/embed/akVX0X2GQf8"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowfullscreen
-></iframe> */
-
 function OnInsertClick() {
   var selected = document.getElementById("optionSelect").value;
   var myText = document.getElementById("textArea").value;
@@ -98,11 +15,7 @@ function OnInsertClick() {
     return;
   }
   if (selected == "title-heading") {
-    if (document.querySelector("#MyArticle h1") == null) {
-      addHeading(myText);
-    } else {
-      updateHeading(myText);
-    }
+    addHeading(myText);
   }
   if (selected == "secondary-heading") {
     addSecondaryHeading(myText);
@@ -123,6 +36,93 @@ function OnInsertClick() {
   convertToInsertMode();
 }
 
+function rndId(elementName) {
+  var i = Math.random().toString(16).slice(2);
+  return elementName + i;
+}
+
+function addHeading(myText) {
+  if (document.querySelector("#MyArticle h1") == null) {
+    var elementName = "h1";
+    var elementAttribute = "textContent";
+
+    var newElement = makePickableElement(elementName, myText, elementAttribute);
+    MyArticle.prepend(newElement); // Append the H1 element to text-Area
+  } else {
+    document.querySelector("#MyArticle h1").textContent = textArea.value;
+  }
+}
+// -----------------------2nd-HEADING----------------------- //
+function addSecondaryHeading(myText) {
+  if (pickedID == null) {
+    var elementName = "h2";
+    var elementAttribute = "innerHTML";
+
+    var newElement = makePickableElement(elementName, myText, elementAttribute);
+    MyArticle.appendChild(newElement); // Append the H1 element to text-Area
+  } else {
+    document.getElementById(pickedID).innerHTML = textArea.value;
+  }
+}
+
+// ------------------------PARAGRAPH----------------------- //
+function addParagraph(myText) {
+  if (pickedID == null) {
+    var elementName = "p";
+    var elementAttribute = "innerHTML";
+
+    myText = myText.replace(/\n+/g, "<br><br>");
+    var newElement = makePickableElement(elementName, myText, elementAttribute);
+    MyArticle.appendChild(newElement); // Append the H1 element to text-Area
+  } else {
+    document.getElementById(pickedID).innerHTML = textArea.value.replace(/\n+/g, "<br><br>");
+  }
+}
+
+function addImage(myText) {
+  if (pickedID == null) {
+    var divElement = document.createElement("div");
+    divElement.setAttribute("class", "flex-center");
+
+    var elementName = "img";
+    var elementAttribute = "src";
+
+    var newElement = makePickableElement(elementName, myText, elementAttribute);
+
+    divElement.appendChild(newElement);
+    MyArticle.appendChild(divElement);
+  } else {
+    document.getElementById(pickedID).src = textArea.value;
+  }
+}
+
+function addVideo(myText) {
+  if (!myText.includes("/watch?v=")) {
+    return alert("Bad youtube url");
+  }
+  if (pickedID == null) {
+    var divElement = document.createElement("div");
+    divElement.setAttribute("class", "flex-center");
+    myText = myText.replace("/watch?v=", "/embed/");
+
+    var elementName = "iframe";
+    var elementAttribute = "src";
+
+    var newElement = makePickableElement(elementName, myText, elementAttribute);
+
+    newElement.setAttribute("frameborder", "0");
+    newElement.setAttribute("class", "videoAttach");
+
+    divElement.appendChild(newElement);
+    MyArticle.appendChild(divElement); // Append the H1 element to text-Area
+  } else {
+    document.getElementById(pickedID).src = textArea.value.replace(
+      "/watch?v=",
+      "/embed/"
+    );
+  }
+}
+
 function makePickableElement(elementName, myText, elementAttribute) {
   var newElement = document.createElement(elementName); // Create the h2 element
   newElement[elementAttribute] = myText;
@@ -134,13 +134,24 @@ function makePickableElement(elementName, myText, elementAttribute) {
     rememberMyName(uniqueID, elementAttribute);
   };
 
-  MyArticle.appendChild(newElement); // Append the H1 element to text-Area
+  return newElement;
 }
 
 function rememberMyName(pickedID, elementAttribute) {
   // alert(clicked_id);
-  window.pickedID = pickedID;
-  textArea.value = document.getElementById(pickedID)[elementAttribute];
+  window.pickedID = pickedID; // with window. we are getting global pickedID
+
+  var element = document.getElementById(pickedID);
+
+  textArea.value = element[elementAttribute];
+
+  if (element.tagName == "IFRAME") {
+    textArea.value = textArea.value.replace("/embed/", "/watch?v=");
+  }
+  if (element.tagName == "P") {
+    textArea.value = textArea.value.replace(/<br>/g, "\n");
+  }
+
   convertToEditMode();
 }
 
