@@ -1,7 +1,13 @@
 document.getElementById("insertButton").onclick = OnInsertClick;
 document.getElementById("deleteButton").onclick = deleteElement;
+document.getElementById("saveButton").onclick = saveClick;
+document.getElementById("getButton").onclick = getClick;
 var pickedID = null;
-
+function getClick() {
+  MyArticle.innerHTML = localStorage.getItem(
+    "Got a New PC? 11 Things to Do Right Awayee3035ecf607a"
+  );
+}
 function OnInsertClick() {
   var selected = document.getElementById("optionSelect").value;
   var myText = document.getElementById("textArea").value;
@@ -14,6 +20,11 @@ function OnInsertClick() {
     alert("Text area can not be empty!");
     return;
   }
+
+  insertElement(selected, myText);
+}
+
+function insertElement(selected, myText) {
   if (selected == "title-heading") {
     addHeading(myText);
   }
@@ -31,7 +42,8 @@ function OnInsertClick() {
     addVideo(myText);
   }
 
-  // after complete process clear text area
+  // save in LS
+  var insertingObject = { selected, myText, pickedID };
 
   convertToInsertMode();
 }
@@ -49,7 +61,7 @@ function addHeading(myText) {
     var newElement = makePickableElement(elementName, myText, elementAttribute);
     MyArticle.prepend(newElement); // Append the H1 element to text-Area
   } else {
-    document.querySelector("#MyArticle h1").textContent = textArea.value;
+    document.querySelector("#MyArticle h1").textContent = myText;
   }
 }
 // -----------------------2nd-HEADING----------------------- //
@@ -61,7 +73,7 @@ function addSecondaryHeading(myText) {
     var newElement = makePickableElement(elementName, myText, elementAttribute);
     MyArticle.appendChild(newElement); // Append the H1 element to text-Area
   } else {
-    document.getElementById(pickedID).innerHTML = textArea.value;
+    document.getElementById(pickedID).innerHTML = myText;
   }
 }
 
@@ -75,7 +87,10 @@ function addParagraph(myText) {
     var newElement = makePickableElement(elementName, myText, elementAttribute);
     MyArticle.appendChild(newElement); // Append the H1 element to text-Area
   } else {
-    document.getElementById(pickedID).innerHTML = textArea.value.replace(/\n+/g, "<br><br>");
+    document.getElementById(pickedID).innerHTML = myText.replace(
+      /\n+/g,
+      "<br><br>"
+    );
   }
 }
 
@@ -92,7 +107,7 @@ function addImage(myText) {
     divElement.appendChild(newElement);
     MyArticle.appendChild(divElement);
   } else {
-    document.getElementById(pickedID).src = textArea.value;
+    document.getElementById(pickedID).src = myText;
   }
 }
 
@@ -116,7 +131,7 @@ function addVideo(myText) {
     divElement.appendChild(newElement);
     MyArticle.appendChild(divElement); // Append the H1 element to text-Area
   } else {
-    document.getElementById(pickedID).src = textArea.value.replace(
+    document.getElementById(pickedID).src = myText.replace(
       "/watch?v=",
       "/embed/"
     );
@@ -129,6 +144,7 @@ function makePickableElement(elementName, myText, elementAttribute) {
 
   var uniqueID = rndId(elementName);
   newElement.setAttribute("id", uniqueID);
+  pickedID = uniqueID;
 
   newElement.onclick = () => {
     rememberMyName(uniqueID, elementAttribute);
@@ -155,6 +171,12 @@ function rememberMyName(pickedID, elementAttribute) {
   convertToEditMode();
 }
 
+function saveClick() {
+  var articleTitle = document.querySelector("#MyArticle h1").textContent;
+  var articleID = rndId(articleTitle);
+  var articleContent = document.querySelector("#MyArticle").innerHTML;
+  localStorage.setItem(articleID, articleContent);
+}
 function convertToEditMode() {
   document.getElementById("optionSelectContainer").style.display = "none";
   document.getElementById("deleteButton").style.display = null;
@@ -166,7 +188,17 @@ function convertToInsertMode() {
   document.getElementById("optionSelectContainer").style.display = null;
   document.getElementById("insertButton").innerHTML = "Insert";
   document.getElementById("deleteButton").style.display = "none";
+  if (hasH1()) {
+    document.getElementById("saveButton").style.display = null;
+  } else {
+    document.getElementById("saveButton").style.display = "none";
+  }
 }
+
+function hasH1() {
+  return document.querySelector("#MyArticle h1") != null;
+}
+
 function deleteElement() {
   if (pickedID != null) {
     var elementToDelete = document.getElementById(pickedID);
