@@ -1,13 +1,10 @@
 document.getElementById("insertButton").onclick = OnInsertClick;
 document.getElementById("deleteButton").onclick = deleteElement;
-document.getElementById("saveButton").onclick = saveClick;
-document.getElementById("getButton").onclick = getClick;
+document.getElementById("saveButton").onclick = saveArticle;
+document.getElementById("getButton").onclick = openArticle;
+
 var pickedID = null;
-function getClick() {
-  MyArticle.innerHTML = localStorage.getItem(
-    "Got a New PC? 11 Things to Do Right Awayee3035ecf607a"
-  );
-}
+
 function OnInsertClick() {
   var selected = document.getElementById("optionSelect").value;
   var myText = document.getElementById("textArea").value;
@@ -171,12 +168,6 @@ function rememberMyName(pickedID, elementAttribute) {
   convertToEditMode();
 }
 
-function saveClick() {
-  var articleTitle = document.querySelector("#MyArticle h1").textContent;
-  var articleID = rndId(articleTitle);
-  var articleContent = document.querySelector("#MyArticle").innerHTML;
-  localStorage.setItem(articleID, articleContent);
-}
 function convertToEditMode() {
   document.getElementById("optionSelectContainer").style.display = "none";
   document.getElementById("deleteButton").style.display = null;
@@ -188,11 +179,7 @@ function convertToInsertMode() {
   document.getElementById("optionSelectContainer").style.display = null;
   document.getElementById("insertButton").innerHTML = "Insert";
   document.getElementById("deleteButton").style.display = "none";
-  if (hasH1()) {
-    document.getElementById("saveButton").style.display = null;
-  } else {
-    document.getElementById("saveButton").style.display = "none";
-  }
+  showSaveButton();
 }
 
 function hasH1() {
