@@ -1,8 +1,3 @@
-document.getElementById("insertButton").onclick = OnInsertClick;
-document.getElementById("deleteButton").onclick = deleteElement;
-document.getElementById("saveButton").onclick = saveArticle;
-document.getElementById("getButton").onclick = openArticle;
-
 var pickedID = null;
 
 function OnInsertClick() {
@@ -180,6 +175,14 @@ function convertToInsertMode() {
   document.getElementById("insertButton").innerHTML = "Insert";
   document.getElementById("deleteButton").style.display = "none";
   showSaveButton();
+}
+
+function showSaveButton() {
+  if (hasH1()) {
+    document.getElementById("saveButton").style.display = null;
+  } else {
+    document.getElementById("saveButton").style.display = "none";
+  }
 }
 
 function hasH1() {

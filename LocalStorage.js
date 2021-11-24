@@ -1,13 +1,6 @@
 var articleID = null;
 var arrayOfArticles = [];
 
-function showSaveButton() {
-  if (hasH1()) {
-    document.getElementById("saveButton").style.display = null;
-  } else {
-    document.getElementById("saveButton").style.display = "none";
-  }
-}
 function saveArticle() {
   if (articleID == null) {
     var newArticleID = rndId("article");
@@ -25,7 +18,7 @@ function saveArticle() {
   };
 
   localStorage.setItem(newArticleID, JSON.stringify(articleObject));
-  articlesArray(articleTitle, "push");
+  articlesArray(newArticleID, "push");
 }
 
 function getArticlesList() {
@@ -39,38 +32,37 @@ function getArticlesList() {
 }
 
 function populateArticles() {
-  arrayOfArticles.forEach((i) => {
-    var divElement = document.createElement("div");
-    divElement.setAttribute("id", "abc");
-    var articleDiv = ArticlesList.appendChild(divElement)
-    articleDiv.innerHTML =
-      "<strong>" + i + "</strong>";
-      articleDiv.onclick = () => openArticle()
+  getArticlesList();
 
+  arrayOfArticles.forEach((key) => {
+    var divElement = document.createElement("div");
+    var articleDiv = ArticlesList.appendChild(divElement);
+
+    articleNameToShow = JSON.parse(localStorage.getItem(key)).title;
+    divElement.setAttribute("id", key);
+    articleDiv.innerHTML = "<strong>" + articleNameToShow + "</strong>";
+    articleDiv.onclick = () => openArticle(key);
   });
 }
 
-function openArticle() {
-  articleID = "articled8c225322d618";
-  var articleObject = localStorage.getItem(articleID);
-  articleObject = JSON.parse(articleObject);
-  MyArticle.innerHTML = articleObject.content;
-  showSaveButton();
+function openArticle(divArticleId) {
+  var articleObject = localStorage.getItem(divArticleId);
+  var articleObject = JSON.parse(articleObject);
+  var articleContent = articleObject.content;
+  ArticlesList.innerHTML = articleContent;
+  header.parentElement.removeChild(header);
 }
 
-function articlesArray(articleTitle, x) {
+function articlesArray(articleId, x) {
+  getArticlesList();
   if (x == "push") {
-    arrayOfArticles.push(articleTitle);
+    console.log(arrayOfArticles);
+    arrayOfArticles.push(articleId);
+    console.log(arrayOfArticles);
   } else if (x == "splice") {
-    arrayOfArticles.splice(arrayOfArticles.indexOf(articleTitle), 1);
+    arrayOfArticles.splice(arrayOfArticles.indexOf(articleId), 1);
   }
 
-  console.log(x);
-
   var textArray = JSON.stringify(arrayOfArticles);
-  console.log(textArray);
   localStorage.setItem("Articles", textArray);
 }
-
-getArticlesList();
-populateArticles();

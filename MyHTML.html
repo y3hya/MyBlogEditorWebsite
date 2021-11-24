@@ -74,12 +74,18 @@
             Save
           </button>
           <button type="button" id="getButton" class="btn btn-primary btn-md">
-            get
+            Find Articles
           </button>
         </div>
       </div>
     </div>
-    <script src="MyWebsite.js"></script>
     <script src="LocalStorage.js"></script>
+    <script src="MyWebsite.js"></script>
+    <script>
+      document.getElementById("insertButton").onclick = OnInsertClick;
+      document.getElementById("deleteButton").onclick = deleteElement;
+      document.getElementById("saveButton").onclick = saveArticle;
+      document.getElementById("getButton").onclick = openArticle;
+    </script>
   </body>
 </html>
